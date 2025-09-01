@@ -1,0 +1,5 @@
+issue_text = """
+Hello, I need access for username omar123
+with email omar@example.com
+and role admin to work on the project.
+"""
