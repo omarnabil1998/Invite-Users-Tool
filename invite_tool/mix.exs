@@ -36,6 +36,7 @@ end
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
+      {:req, "~> 0.5"},
       {:instructor, "~> 0.1.0"},
       {:burrito, "~> 1.3.0"}
       # {:dep_from_hexpm, "~> 0.3.0"},

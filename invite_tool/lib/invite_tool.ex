@@ -1,8 +1,7 @@
 defmodule InviteTool do
-  use Application
   alias InviteTool.Parser
+  alias InviteTool.GitHub
 
-  @impl true
   def start(_type, _args) do
     args = Burrito.Util.Args.argv()
 
@@ -14,7 +13,7 @@ defmodule InviteTool do
             System.halt(0)
 
           {:error, reason} ->
-            IO.puts("Failed to read file")
+            IO.puts("Failed to read file: #{inspect(reason)}")
             System.halt(1)
         end
 
@@ -27,10 +26,17 @@ defmodule InviteTool do
   def run(issue_text) do
     case Parser.parse_issue_text(issue_text) do
       {:ok, access_request} ->
-        IO.puts("Parsed request: #{inspect(access_request)}")
+        IO.puts("Request parsed successfully: #{inspect(access_request, pretty: true)}")
+
+        GitHub.create_invite_pr(access_request)
+        IO.puts("Invite PR created!")
+
+        GitHub.invite_user(access_request)
+        IO.puts("Invite sent!")
 
       {:error, reason} ->
         IO.puts("Failed to parse issue: #{inspect(reason)}")
+        System.halt(1)
     end
   end
 end
