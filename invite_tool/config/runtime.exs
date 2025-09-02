@@ -8,4 +8,4 @@ config :instructor,
 config :invite_tool, :github,
   github_token: System.fetch_env!("GITHUB_TOKEN"),
   github_repo: System.fetch_env!("GITHUB_REPO"),
-  org: System.fetch_env!("ORG")
+  github_org: System.fetch_env!("GITHUB_ORG")

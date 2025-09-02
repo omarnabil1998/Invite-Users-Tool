@@ -1,0 +1,35 @@
+name: Invite Users on Issue Opened
+
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  invite:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Set env vars
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPO: ${{ github.repository }}
+          GITHUB_ORG: my-org
+        run: echo "Environment variables set"
+
+      - name: Download Invite Tool
+        run: curl -L -o invite_tool https://github.com/omarnabil1998/releases/download/v1.0.0/invite_tool_linux
+
+      - name: Make binary executable
+        run: chmod +x ./invite_tool
+
+      - name: Save issue body
+        run: echo "${{ github.event.issue.body }}" > issue.txt
+
+      - name: Run Invite Tool
+        run: ./invite_tool issue.txt
+
+      - name: Cleanup
+        run: rm issue.txt

@@ -89,13 +89,13 @@ defmodule InviteTool.GitHub do
 
   def invite_user(req) do
     github_token = Application.fetch_env!(:invite_tool, :github)[:github_token]
-    org = Application.fetch_env!(:invite_tool, :github)[:org]
+    github_org = Application.fetch_env!(:invite_tool, :github)[:github_org]
 
     client = Req.new(base_url: @api, auth: {:bearer, github_token})
 
     client
     |> Req.post!(
-      url: "/orgs/#{org}/invitations",
+      url: "/orgs/#{github_org}/invitations",
       json: %{
         invitee_id: fetch_user_id(client, req.username),
         role: req.role
