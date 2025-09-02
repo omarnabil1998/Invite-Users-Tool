@@ -14,9 +14,10 @@ jobs:
 
       - name: Set env vars
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITHUB_REPO: ${{ github.repository }}
-          GITHUB_ORG: my-org
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+          ORG: "instabug-invite-task"
         run: echo "Environment variables set"
 
       - name: Download Invite Tool

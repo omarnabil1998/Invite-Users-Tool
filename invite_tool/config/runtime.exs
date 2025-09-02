@@ -6,6 +6,6 @@ config :instructor,
   ]
 
 config :invite_tool, :github,
-  github_token: System.fetch_env!("GITHUB_TOKEN"),
-  github_repo: System.fetch_env!("GITHUB_REPO"),
-  github_org: System.fetch_env!("GITHUB_ORG")
+  github_token: System.fetch_env!("ACCESS_TOKEN"),
+  github_repo: System.fetch_env!("REPO"),
+  github_org: System.fetch_env!("ORG")
