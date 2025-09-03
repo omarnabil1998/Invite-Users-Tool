@@ -8,6 +8,7 @@ defmodule InviteTool.Schema.AccessRequest do
     field(:username, :string)
     field(:email, :string)
     field(:role, :string)
+    field(:team, :string)
   end
 
   @llm_doc """
@@ -16,6 +17,7 @@ defmodule InviteTool.Schema.AccessRequest do
     - username: GitHub username (string)
     - email: email of the requester (string)
     - role: github role in the org (string) Can be one of: admin, direct_member, billing_manager, reinstate, (default is : "direct_member")
+    - team: github team that the user will be assigned to in the org (string), it will be his job like frontend or devops, Can be one of: frontend, backend, devops (default is : "devops")
 
   The model should extract these fields from unstructured issue text and return
   a JSON object that matches this schema.
@@ -24,7 +26,7 @@ defmodule InviteTool.Schema.AccessRequest do
   @impl true
   def validate_changeset(schema, attrs) do
     schema
-    |> cast(attrs, [:username, :email, :role])
+    |> cast(attrs, [:username, :email, :role, :team])
     |> validate_required([:username, :email])
     |> validate_format(:email, ~r/^[^\s@]+@[^\s@]+\.[^\s@]+$/)
   end

@@ -1,0 +1,3 @@
+issue_text = """
+Hello, I need access for username org-invite-bot with email bot@example.com and role admin to work on the project as a backend engineer.
+"""

@@ -29,10 +29,7 @@ defmodule InviteTool do
         IO.puts("Request parsed successfully: #{inspect(access_request, pretty: true)}")
 
         GitHub.create_invite_pr(access_request)
-        IO.puts("Invite PR created!")
-
         GitHub.invite_user(access_request)
-        IO.puts("Invite sent!")
 
       {:error, reason} ->
         IO.puts("Failed to parse issue: #{inspect(reason)}")
