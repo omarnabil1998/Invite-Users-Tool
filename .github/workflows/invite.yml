@@ -21,16 +21,16 @@ jobs:
         run: echo "Environment variables set"
 
       - name: Download Invite Tool
-        run: curl -L -o invite_tool https://github.com/omarnabil1998/releases/download/v1.0.0/invite_tool_linux
+        run: curl -L -o invite_tool_bin https://github.com/omarnabil1998/releases/download/v1.0.0/invite_tool_linux
 
       - name: Make binary executable
-        run: chmod +x ./invite_tool
+        run: chmod +x ./invite_tool_bin
 
       - name: Save issue body
         run: echo "${{ github.event.issue.body }}" > issue.txt
 
       - name: Run Invite Tool
-        run: ./invite_tool issue.txt
+        run: ./invite_tool_bin issue.txt
 
       - name: Cleanup
         run: rm issue.txt
