@@ -12,25 +12,29 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v3
 
-      - name: Set env vars
-        env:
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-          ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          REPO: ${{ github.repository }}
-          ORG: "instabug-invite-task"
-        run: echo "Environment variables set"
-
       - name: Download Invite Tool
-        run: curl -L -o invite_tool_bin https://github.com/omarnabil1998/Invite-Users-Tool/releases/download/v1.0.0/invite_tool_linux
+        env:
+          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+          REPO: ${{ github.repository }}
+        run: |
+          API_URL="https://api.github.com/repos/$REPO/releases/tags/v1.0.0"
+          ASSET_ID=$(curl -s -H "Authorization: Bearer $ACCESS_TOKEN" -H "Accept: application/vnd.github+json" "$API_URL" | jq -r ".assets[] | select(.name==\"invite_tool_linux\") | .id")
+          curl -L -H "Authorization: Bearer $ACCESS_TOKEN" -H "Accept: application/octet-stream" \
+            "https://api.github.com/repos/$REPO/releases/assets/$ASSET_ID" -o invite_tool_linux
 
       - name: Make binary executable
-        run: chmod +x ./invite_tool_bin
+        run: chmod +x ./invite_tool_linux
 
       - name: Save issue body
         run: echo "${{ github.event.issue.body }}" > issue.txt
 
       - name: Run Invite Tool
-        run: ./invite_tool_bin issue.txt
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+          REPO: ${{ github.repository }}
+          ORG: "instabug-invite-task"
+        run: ./invite_tool_linux issue.txt
 
       - name: Cleanup
         run: rm issue.txt
